@@ -19,7 +19,7 @@ def gather_file_information(directory_path):
     files_info = {}
 
     files = [str(file) for file in Path(directory_path).rglob('*') if file.is_file()]
-    
+
     # Iterate over all items in the given directory
     for item_path in files:
         # Check if the item is a file
@@ -75,8 +75,7 @@ def main():
     data_loader = client.api_data("data_loader")
 
     # Set permissions for the api_data/data_loader to be visible to everyone
-    permissions = SyftPermission.datasite_default(email=client.email)
-    permissions.read.append("GLOBAL")
+    permissions = SyftPermission.mine_with_public_read(client, data_loader)
     permissions.save(data_loader)
 
     output_path = data_loader / "datasets.json"
